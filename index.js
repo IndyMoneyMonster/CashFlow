@@ -14,40 +14,111 @@ const openai = new OpenAI({
 });
 
 // ==========================================================
+// INDEX INDY
+// AGENTE DE SOPORTE: LAURA
+// PROYECTO: NUTRIVIDA
+// ==========================================================
+
+// ==========================================================
 // INFORMACIÓN OFICIAL
 // ==========================================================
 
-const DATOS_PAGO = {
-  banco: "Spin by OXXO",
-  titular: "Francisco Camacho Sotelo",
-  clabe: "728969000160022558",
+const INFORMACION_OFICIAL = {
+  marca: "Nutrivida",
 
-  aportes: {
-    gratitud: 90,
-    proyecto: 150,
-    alcance: 200
-  }
+  producto:
+    "Mega Pack Digital de Alimentación para Personas con Diabetes",
+
+  titulo:
+    "¿No Sabes Qué Comer? Nosotros ya lo organizamos por ti.",
+
+  precio: 99,
+
+  moneda: "MXN",
+
+  contenido:
+    "Más de 700 recetas",
+
+  pago:
+    "Pago único",
+
+  formato:
+    "100% digital",
+
+  acceso:
+    "De por vida",
+
+  formasPago: [
+    "Transferencia",
+    "OXXO"
+  ],
+
+  bonos: [
+    "Meal Prep para Diabéticos",
+    "Recetas Express",
+    "Listado de Compras Saludables"
+  ],
+
+  bonoExtra:
+    "Remedios Naturales para la Diabetes"
 };
+
+// ==========================================================
+// 10 PALABRAS OFICIALES
+// ==========================================================
+
+const PALABRAS_OFICIALES = [
+  "pago",
+  "recibir",
+  "acceso",
+  "precio",
+  "transferencia",
+  "comprobante",
+  "entrega",
+  "bonos",
+  "oxxo",
+  "descarga"
+];
 
 // ==========================================================
 // PROMPT DEL AGENTE
 // ==========================================================
 
 const SYSTEM_PROMPT = `
-Eres Isabella Rojas, asistente de soporte del proyecto
-Cuando Dios Habla.
+Eres Laura, agente de soporte de Nutrivida.
 
-Tu personalidad es amable, cálida, espiritual, paciente,
-respetuosa y humana.
+Atiendes por WhatsApp a personas interesadas en el
+"Mega Pack Digital de Alimentación para Personas con Diabetes".
 
-Responde como una persona real por WhatsApp.
+Tu función principal es resolver dudas de manera clara,
+breve, cálida, natural y humana.
+
+La persona normalmente ya viene de un flujo previo de ManyChat.
+
+Por eso NO debes volver a presentar toda la oferta cada vez
+que haga una pregunta.
+
+Responde directamente la duda que tenga.
+
+PERSONALIDAD:
+
+- Tu nombre es Laura.
+- Eres amable.
+- Eres paciente.
+- Eres cálida.
+- Eres respetuosa.
+- Hablas como una persona real por WhatsApp.
+- No suenas robótica.
+- No presionas.
+- Ayudas a la persona a resolver su duda.
 
 REGLAS DE ESTILO:
 
-- Responde en español.
+- Responde siempre en español.
+- Utiliza mensajes breves.
 - Utiliza párrafos cortos.
-- Deja una línea en blanco entre ideas.
-- Usa emojis cálidos con moderación.
+- Deja una línea en blanco entre ideas cuando sea necesario.
+- Usa emojis con moderación.
 - Evita bloques largos de texto.
 - No repitas información innecesariamente.
 - No saludes nuevamente si la conversación ya comenzó.
@@ -56,47 +127,149 @@ REGLAS DE ESTILO:
 - No uses Markdown como encabezados con símbolos #.
 - No inventes enlaces, promociones, cuentas ni información.
 - No digas que eres una inteligencia artificial.
-- No presiones a la persona para pagar.
-- El apoyo es voluntario.
-- Nunca presentes el apoyo como una compra obligatoria.
+- No presiones a la persona para comprar.
+- No inventes precios.
+- No inventes bonos.
+- No inventes datos bancarios.
+- No inventes instrucciones de OXXO.
+- No inventes condiciones de entrega.
+- No repitas todo el discurso comercial.
+
+Si una situación requiere información que todavía no está
+configurada, responde únicamente con la información que sí
+conoces y permite que el equipo continúe la atención manual.
 
 INFORMACIÓN OFICIAL DEL PROYECTO:
 
-El material principal es un libro digital en formato PDF
-llamado "Cuando Dios Habla".
+Marca:
+Nutrivida.
 
-El PDF ya fue enviado previamente dentro de la conversación
-de WhatsApp.
+Producto:
+Mega Pack Digital de Alimentación para Personas con Diabetes.
 
-El contenido es bíblico y no pertenece exclusivamente a una
-religión o denominación.
+Título comercial:
+"¿No Sabes Qué Comer? Nosotros ya lo organizamos por ti."
 
-Los montos de apoyo sugeridos son:
+Precio:
+$99 MXN.
 
-- $70 MXN como muestra de gratitud.
-- $150 MXN para apoyar el proyecto.
-- $200 MXN para ayudarnos a llegar a más personas.
+Es un pago único.
 
-La persona puede realizar su apoyo por:
+No es una suscripción.
 
-- Transferencia bancaria.
-- Depósito en OXXO.
+No tiene mensualidades.
 
-DATOS PARA TRANSFERENCIA:
+El producto es 100% digital.
 
-Banco: Spin by OXXO
-Titular: Francisco Camacho Sotelo
-CLABE: 728969000160022558
+El acceso es de por vida.
 
-Después de realizar el apoyo, la persona debe enviar en este
-mismo chat la imagen de su comprobante.
+Después de confirmar el pago se realiza la entrega del
+material digital.
 
-El apoyo puede hacerse después, mañana o cuando la persona
-tenga oportunidad. No existe ningún problema por esperar.
+El Mega Pack contiene más de 700 recetas.
 
-Cuando respondas una pregunta concreta, no repitas todo el
-discurso de venta. Contesta únicamente lo necesario de manera
-clara, amable, ordenada y visual.
+BONOS INCLUIDOS:
+
+1. Meal Prep para Diabéticos.
+2. Recetas Express.
+3. Listado de Compras Saludables.
+
+BONO EXTRA:
+
+Remedios Naturales para la Diabetes.
+
+Cuando corresponda a la promoción vigente, este Bono Extra
+se entrega con la condición comunicada previamente dentro
+del flujo.
+
+FORMAS DE PAGO:
+
+- Transferencia.
+- OXXO.
+
+Cuando una persona pregunte cómo puede pagar, informa
+que existen estas dos opciones.
+
+No inventes números de cuenta, CLABE, titulares, códigos,
+referencias ni datos para OXXO.
+
+COMPROBANTE:
+
+Si la persona habla de su comprobante o indica que realizó
+su pago, reconoce la situación de manera amable.
+
+No vuelvas a intentar venderle el producto.
+
+Si la información disponible no permite confirmar
+automáticamente el pago, indica que su comprobante será
+revisado para continuar con la entrega.
+
+ENTREGA:
+
+El producto es 100% digital.
+
+No existe envío físico.
+
+La entrega se realiza después de confirmar el pago.
+
+RECIBIR:
+
+El material se recibe de forma digital.
+
+Después de confirmar el pago se proporciona el acceso
+al Mega Pack.
+
+ACCESO:
+
+El acceso al material es de por vida.
+
+DESCARGA:
+
+El material es digital.
+
+Si la persona tiene una dificultad específica con la
+descarga y no tienes información suficiente para resolverla,
+reconoce el problema y explica que se revisará para ayudarle.
+
+No inventes enlaces de descarga.
+
+SALUD:
+
+El Mega Pack es material educativo relacionado con
+alimentación.
+
+No diagnostiques enfermedades.
+
+No prometas curar la diabetes.
+
+No prometas revertir la diabetes.
+
+No indiques que la persona debe suspender medicamentos.
+
+No modifiques tratamientos médicos.
+
+Ante una consulta médica individual, recomienda consultar
+con su médico o profesional de salud.
+
+OBJETIVO:
+
+Resolver las dudas de soporte de las personas que llegan
+desde ManyChat y facilitar que continúen correctamente
+dentro del proceso.
+
+Las 10 palabras utilizadas durante esta primera etapa
+de pruebas son:
+
+pago
+recibir
+acceso
+precio
+transferencia
+comprobante
+entrega
+bonos
+OXXO
+descarga
 `;
 
 // ==========================================================
@@ -113,14 +286,12 @@ function normalizarTexto(valor) {
     .trim();
 }
 
-function contieneAlguna(texto, frases) {
-  return frases.some((frase) => texto.includes(frase));
-}
+function contienePalabra(texto, palabra) {
+  const palabras = texto.split(/\s+/);
 
-function elegirAleatoria(opciones) {
-  return opciones[
-    Math.floor(Math.random() * opciones.length)
-  ];
+  return palabras.includes(
+    normalizarTexto(palabra)
+  );
 }
 
 function limpiarRespuesta(valor) {
@@ -134,278 +305,221 @@ function limpiarRespuesta(valor) {
 }
 
 // ==========================================================
-// MENSAJES REUTILIZABLES
-// ==========================================================
-
-function cierrePago() {
-  return [
-    "💌 Para apoyar este proyecto espiritual puedes elegir:",
-    "",
-    "🏦 Transferencia bancaria",
-    "🏪 Depósito en OXXO",
-    "",
-    "¿Cuál opción prefieres? 🙏"
-  ].join("\n");
-}
-
-function agregarCierre(respuesta) {
-  const respuestaLimpia = limpiarRespuesta(respuesta);
-
-  if (!respuestaLimpia) {
-    return cierrePago();
-  }
-
-  const normalizada =
-    normalizarTexto(respuestaLimpia);
-
-  const yaIncluyeCierre =
-    normalizada.includes("cual opcion prefieres") ||
-    (
-      normalizada.includes("transferencia bancaria") &&
-      normalizada.includes("deposito en oxxo")
-    );
-
-  if (yaIncluyeCierre) {
-    return respuestaLimpia;
-  }
-
-  return `${respuestaLimpia}\n\n${cierrePago()}`;
-}
-
-function respuestaCuenta() {
-  return [
-    "Claro 😊 Estos son los datos para realizar tu apoyo por transferencia:",
-    "",
-    `🏦 Banco: ${DATOS_PAGO.banco}`,
-    `👤 Titular: ${DATOS_PAGO.titular}`,
-    `🔢 CLABE: ${DATOS_PAGO.clabe}`,
-    "",
-    "Cuando realices tu apoyo, envíame aquí la imagen del comprobante y con mucho gusto te entregaré tus regalos 🎁🙏"
-  ].join("\n");
-}
-
-function respuestaPagoPosterior() {
-  return [
-    "Claro 😊 No hay ningún problema, puedes realizar tu apoyo después.",
-    "",
-    "Cuando estés listo, estos son los datos para transferencia:",
-    "",
-    `🏦 Banco: ${DATOS_PAGO.banco}`,
-    `👤 Titular: ${DATOS_PAGO.titular}`,
-    `🔢 CLABE: ${DATOS_PAGO.clabe}`,
-    "",
-    "Después solo envíame aquí la imagen del comprobante para entregarte tus regalos 🎁",
-    "",
-    "Que Dios te bendiga 🙏❤️"
-  ].join("\n");
-}
-
-function respuestaOxxo() {
-  return [
-    "Claro 😊 También puedes realizar tu apoyo mediante depósito en OXXO.",
-    "",
-    "Utiliza el código o QR de Spin que te compartimos anteriormente en esta conversación 🏪",
-    "",
-    "Cuando termines, envíame aquí una fotografía completa y legible del ticket para poder entregarte tus regalos 🎁🙏"
-  ].join("\n");
-}
-
-function respuestaReligion() {
-  return [
-    "El contenido está basado en la Biblia 🙏📖",
-    "",
-    "No pertenece exclusivamente a una religión o denominación. Fue preparado para cualquier persona que quiera acercarse más a Dios y profundizar en Su Palabra ❤️"
-  ].join("\n");
-}
-
-function respuestaEntrega() {
-  return [
-    "El libro es completamente digital y se entrega en formato PDF 📖✨",
-    "",
-    "Ya fue enviado anteriormente en esta misma conversación. Puedes buscarlo un poco más arriba en el chat y descargarlo directamente en tu teléfono 📲"
-  ].join("\n");
-}
-
-function respuestaPrecio() {
-  return [
-    "El libro digital ya fue entregado y el apoyo al proyecto es completamente voluntario 🙏",
-    "",
-    "Puedes elegir la cantidad con la que te sientas cómodo:",
-    "",
-    `💛 $${DATOS_PAGO.aportes.gratitud} MXN como muestra de gratitud`,
-    `🌱 $${DATOS_PAGO.aportes.proyecto} MXN para apoyar el proyecto`,
-    `✨ $${DATOS_PAGO.aportes.alcance} MXN para ayudarnos a llegar a más personas`,
-    "",
-    cierrePago()
-  ].join("\n");
-}
-
-// ==========================================================
 // RESPUESTAS DIRECTAS
 // ==========================================================
 
-function respuestaDirecta(mensajeOriginal) {
-  const texto =
-    normalizarTexto(mensajeOriginal);
-
-  if (!texto) {
-    return null;
-  }
+function respuestaDirecta(textoNormalizado) {
 
   // --------------------------------------------------------
-  // PAGAR DESPUÉS
-  // Debe evaluarse antes de la intención genérica de pago.
-  // --------------------------------------------------------
-
-  const preguntaPagoPosterior =
-    contieneAlguna(texto, [
-      "pagar despues",
-      "pago despues",
-      "depositar despues",
-      "transferir despues",
-      "hacerlo despues",
-      "puedo hacerlo despues",
-      "puedo pagar manana",
-      "pagar manana",
-      "pago manana",
-      "depositar manana",
-      "transferir manana",
-      "lo hago manana",
-      "mas tarde",
-      "otro dia",
-      "la proxima semana",
-      "cuando tenga dinero"
-    ]) ||
-    texto === "despues" ||
-    texto === "manana";
-
-  if (preguntaPagoPosterior) {
-    return respuestaPagoPosterior();
-  }
-
-  // --------------------------------------------------------
-  // DATOS BANCARIOS
-  // --------------------------------------------------------
-
-  const preguntaCuenta =
-    contieneAlguna(texto, [
-      "numero de cuenta",
-      "numero para depositar",
-      "numero para transferir",
-      "datos bancarios",
-      "datos de transferencia",
-      "cuenta bancaria",
-      "a que cuenta",
-      "en que cuenta",
-      "donde transfiero",
-      "donde deposito",
-      "cual es la cuenta",
-      "cual cuenta",
-      "pasame la cuenta",
-      "mandame la cuenta",
-      "clave interbancaria"
-    ]) ||
-    texto === "cuenta" ||
-    texto === "clabe";
-
-  if (preguntaCuenta) {
-    return respuestaCuenta();
-  }
-
-  // --------------------------------------------------------
-  // OXXO
-  // --------------------------------------------------------
-
-  const preguntaOxxo =
-    contieneAlguna(texto, [
-      "deposito en oxxo",
-      "depositar en oxxo",
-      "pagar en oxxo",
-      "pago en oxxo",
-      "como pago en oxxo",
-      "como deposito en oxxo",
-      "codigo de oxxo",
-      "qr de oxxo",
-      "ticket de oxxo"
-    ]) ||
-    texto === "oxxo";
-
-  if (preguntaOxxo) {
-    return respuestaOxxo();
-  }
-
-  // --------------------------------------------------------
-  // RELIGIÓN
+  // 1. PAGO
   // --------------------------------------------------------
 
   if (
-    contieneAlguna(texto, [
-      "catolico",
-      "catolica",
-      "cristiano",
-      "cristiana",
-      "religion",
-      "religioso",
-      "religiosa",
-      "evangelico",
-      "evangelica",
-      "denominacion",
-      "de que iglesia"
-    ])
+    contienePalabra(
+      textoNormalizado,
+      "pago"
+    )
   ) {
-    return respuestaReligion();
+    return {
+      intencion: "pago",
+
+      respuesta: [
+        "El Mega Pack tiene un pago único de $99 MXN 😊",
+        "",
+        "Puedes realizarlo por transferencia u OXXO."
+      ].join("\n")
+    };
   }
 
   // --------------------------------------------------------
-  // ENTREGA, PDF O PRODUCTO FÍSICO
+  // 2. RECIBIR
   // --------------------------------------------------------
 
   if (
-    contieneAlguna(texto, [
-      "es fisico",
-      "libro fisico",
-      "producto fisico",
-      "formato fisico",
-      "es digital",
-      "libro digital",
-      "es pdf",
-      "archivo pdf",
-      "como lo recibo",
-      "cuando lo recibo",
-      "donde lo recibo",
-      "como se entrega",
-      "donde esta el libro",
-      "no encuentro el libro",
-      "no me llego",
-      "no lo recibi",
-      "envio",
-      "domicilio"
-    ])
+    contienePalabra(
+      textoNormalizado,
+      "recibir"
+    )
   ) {
-    return respuestaEntrega();
+    return {
+      intencion: "recibir",
+
+      respuesta: [
+        "El material es 100% digital 📲",
+        "",
+        "Después de confirmar tu pago recibirás el acceso al Mega Pack."
+      ].join("\n")
+    };
   }
 
   // --------------------------------------------------------
-  // PRECIO O MONTO
+  // 3. ACCESO
   // --------------------------------------------------------
 
   if (
-    contieneAlguna(texto, [
-      "cuanto cuesta",
-      "cuanto vale",
-      "que precio",
-      "precio",
-      "costo",
-      "cuanto pago",
-      "cuanto deposito",
-      "cuanto transfiero",
-      "cuanto hay que dar",
-      "cuanto debo pagar",
-      "de cuanto es el apoyo",
-      "cantidad"
-    ])
+    contienePalabra(
+      textoNormalizado,
+      "acceso"
+    )
   ) {
-    return respuestaPrecio();
+    return {
+      intencion: "acceso",
+
+      respuesta: [
+        "Tu acceso al Mega Pack es de por vida 😊",
+        "",
+        "No hay mensualidades ni pagos recurrentes."
+      ].join("\n")
+    };
+  }
+
+  // --------------------------------------------------------
+  // 4. PRECIO
+  // --------------------------------------------------------
+
+  if (
+    contienePalabra(
+      textoNormalizado,
+      "precio"
+    )
+  ) {
+    return {
+      intencion: "precio",
+
+      respuesta: [
+        "El precio del Mega Pack Digital de Alimentación para Personas con Diabetes es de $99 MXN.",
+        "",
+        "Es un solo pago y tendrás acceso de por vida 😊"
+      ].join("\n")
+    };
+  }
+
+  // --------------------------------------------------------
+  // 5. TRANSFERENCIA
+  // --------------------------------------------------------
+
+  if (
+    contienePalabra(
+      textoNormalizado,
+      "transferencia"
+    )
+  ) {
+    return {
+      intencion: "transferencia",
+
+      respuesta: [
+        "Sí 😊 Puedes realizar tu pago por transferencia.",
+        "",
+        "El pago del Mega Pack es de $99 MXN."
+      ].join("\n")
+    };
+  }
+
+  // --------------------------------------------------------
+  // 6. COMPROBANTE
+  // --------------------------------------------------------
+
+  if (
+    contienePalabra(
+      textoNormalizado,
+      "comprobante"
+    )
+  ) {
+    return {
+      intencion: "comprobante",
+
+      respuesta: [
+        "Gracias 😊 Si ya realizaste tu pago y enviaste tu comprobante, se revisará para continuar con la entrega de tu material digital.",
+        "",
+        "En cuanto sea confirmado podremos continuar con tu acceso."
+      ].join("\n")
+    };
+  }
+
+  // --------------------------------------------------------
+  // 7. ENTREGA
+  // --------------------------------------------------------
+
+  if (
+    contienePalabra(
+      textoNormalizado,
+      "entrega"
+    )
+  ) {
+    return {
+      intencion: "entrega",
+
+      respuesta: [
+        "La entrega es 100% digital 📲",
+        "",
+        "Después de confirmar tu pago recibirás el acceso al material."
+      ].join("\n")
+    };
+  }
+
+  // --------------------------------------------------------
+  // 8. BONOS
+  // --------------------------------------------------------
+
+  if (
+    contienePalabra(
+      textoNormalizado,
+      "bonos"
+    )
+  ) {
+    return {
+      intencion: "bonos",
+
+      respuesta: [
+        "Tu Mega Pack incluye estos 3 bonos 🎁",
+        "",
+        "1. Meal Prep para Diabéticos",
+        "2. Recetas Express",
+        "3. Listado de Compras Saludables"
+      ].join("\n")
+    };
+  }
+
+  // --------------------------------------------------------
+  // 9. OXXO
+  // --------------------------------------------------------
+
+  if (
+    contienePalabra(
+      textoNormalizado,
+      "oxxo"
+    )
+  ) {
+    return {
+      intencion: "oxxo",
+
+      respuesta: [
+        "Sí 😊 También puedes realizar tu pago por OXXO.",
+        "",
+        "El pago del Mega Pack es de $99 MXN."
+      ].join("\n")
+    };
+  }
+
+  // --------------------------------------------------------
+  // 10. DESCARGA
+  // --------------------------------------------------------
+
+  if (
+    contienePalabra(
+      textoNormalizado,
+      "descarga"
+    )
+  ) {
+    return {
+      intencion: "descarga",
+
+      respuesta: [
+        "El Mega Pack se entrega de forma digital 📲",
+        "",
+        "Si estás teniendo algún problema con la descarga, indícanos qué sucede para poder ayudarte."
+      ].join("\n")
+    };
   }
 
   return null;
@@ -418,11 +532,12 @@ function respuestaDirecta(mensajeOriginal) {
 app.get("/", (req, res) => {
   return res
     .status(200)
-    .send("Bot ventas activo ✅");
+    .send("Laura - Soporte Nutrivida activo ✅");
 });
 
 app.post("/mensaje", async (req, res) => {
   try {
+
     const mensaje =
       req.body?.texto ??
       req.body?.mensaje ??
@@ -435,6 +550,8 @@ app.post("/mensaje", async (req, res) => {
     console.log(
       "Mensaje recibido:",
       textoUsuario
+        ? "[contenido recibido]"
+        : "[vacío]"
     );
 
     if (!textoUsuario) {
@@ -442,21 +559,37 @@ app.post("/mensaje", async (req, res) => {
         respuesta: [
           "Estoy aquí para ayudarte 😊",
           "",
-          "Puedes escribirme tu duda sobre el libro, la entrega o las formas de apoyo 🙏"
+          "Escríbeme tu duda y con gusto la revisamos."
         ].join("\n")
       });
     }
 
+    const textoNormalizado =
+      normalizarTexto(textoUsuario);
+
+    // ======================================================
+    // RESPUESTA DIRECTA
+    // ======================================================
+
     const directa =
-      respuestaDirecta(textoUsuario);
+      respuestaDirecta(
+        textoNormalizado
+      );
 
     if (directa) {
+
       const respuestaFinal =
-        limpiarRespuesta(directa);
+        limpiarRespuesta(
+          directa.respuesta
+        );
 
       console.log(
-        "Respuesta directa enviada:",
-        respuestaFinal
+        "Intención detectada:",
+        directa.intencion
+      );
+
+      console.log(
+        "Respuesta generada mediante base de conocimiento"
       );
 
       return res.json({
@@ -464,8 +597,17 @@ app.post("/mensaje", async (req, res) => {
       });
     }
 
+    // ======================================================
+    // CONSULTA ABIERTA CON OPENAI
+    // ======================================================
+
+    console.log(
+      "Intención detectada: consulta abierta"
+    );
+
     const response =
       await openai.responses.create({
+
         model: "gpt-4.1-mini",
 
         temperature: 0.4,
@@ -496,31 +638,40 @@ app.post("/mensaje", async (req, res) => {
       response.output_text || "";
 
     const respuestaFinal =
-      agregarCierre(respuestaIA);
+      limpiarRespuesta(
+        respuestaIA
+      );
 
     console.log(
-      "Respuesta enviada:",
-      respuestaFinal
+      "Respuesta generada mediante OpenAI"
     );
 
     return res.json({
       respuesta: respuestaFinal
     });
+
   } catch (error) {
+
     console.error(
       "Error en /mensaje:",
       error
     );
 
-    return res.json({
-      respuesta: [
-        "Con mucho gusto te ayudo 😊",
-        "",
-        cierrePago()
-      ].join("\n")
-    });
+    return res
+      .status(200)
+      .json({
+        respuesta: [
+          "En este momento no pude procesar tu mensaje correctamente.",
+          "",
+          "Por favor, inténtalo nuevamente en unos minutos 😊"
+        ].join("\n")
+      });
   }
 });
+
+// ==========================================================
+// INICIAR SERVIDOR
+// ==========================================================
 
 app.listen(PORT, () => {
   console.log(
